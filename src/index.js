@@ -4,6 +4,9 @@ import { dbConnect } from './db/connection.js';
 import { exit } from 'node:process';
 import { contactRouter } from './routes/contactRouter.js';
 import expressListRoutes from 'express-list-routes';
+import morgan from 'morgan';
+import { createWriteStream } from 'node:fs';
+import { join as pathJoin } from 'node:path';
 
 if (!await dbConnect()) {
     console.log('Unable to connect to db.');
@@ -14,6 +17,10 @@ console.log('Connection to db successful!');
 const app = express();
 app.use(cors());
 app.use(json());
+
+const logStream = createWriteStream(pathJoin(import.meta.dirname, 'access.log'), { flags: 'a' });
+
+app.use(morgan('short', { stream: logStream }));
 
 app.use('/contacts', contactRouter);
 
