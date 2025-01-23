@@ -24,9 +24,22 @@ POST {{baseUrl}}/contacts
 Content-Type: application/json
 
 {
-     "firstName": "Moshe",
-     "contactInfos": [{
-         "infoType": "email",
-         "value": "a.b@c.com"
-     }]
- }
+    "firstName": "Moshe",
+    "contactInfos": [{
+        "infoType": "email",
+        "value": "a.b@c.com"
+    }]
+}
+
+@id = 679214aee51bdd788890623a
+### Get contact by id
+GET {{baseUrl}}/contacts/{{id}}
+ 
+### Get contact by id
+GET {{baseUrl}}/contacts/679228a1f8d19f041cc37aaa
+
+### Delete contact by id
+DELETE {{baseUrl}}/contacts/{{id}}
+ 
+### Get contact by id
+DELETE {{baseUrl}}/contacts/679228a1f8d19f041cc37aaa

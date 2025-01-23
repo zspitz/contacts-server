@@ -21,4 +21,24 @@ contactRouter.post('/', async (req, res) => {
     res.send(newContact);
 });
 
+contactRouter.param('id', async (req, res, next, id) => {
+    const contact = await Contact.findById(id);
+    if (!contact) {
+        res.status(404).send('Contact not found');
+        return;
+    }
+    req.contact = contact;
+    next();
+});
+
+contactRouter.get('/:id', async (req, res) => {
+    res.status(200).send(req.contact);
+});
+
+contactRouter.delete('/:id', async (req, res) => {
+    req.contact.deleteOne();
+    res.status(200).send(req.contact);
+});
+
+
 export { contactRouter };
