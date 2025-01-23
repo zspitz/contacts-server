@@ -5,3 +5,28 @@ GET {{baseUrl}}/blah
 
 ### get all contacts
 GET {{baseUrl}}/contacts
+
+### create new contact
+POST {{baseUrl}}/contacts
+Content-Type: application/json
+
+{
+     "firstName": "Moshe",
+     "lastName": "Cohen",
+     "contactInfos": [{
+         "infoType": "email",
+         "value": "a.b@c.com"
+     }]
+}
+
+### try to create invalid contact
+POST {{baseUrl}}/contacts
+Content-Type: application/json
+
+{
+     "firstName": "Moshe",
+     "contactInfos": [{
+         "infoType": "email",
+         "value": "a.b@c.com"
+     }]
+ }
