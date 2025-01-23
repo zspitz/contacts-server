@@ -2,3 +2,6 @@
 
 ### GET url HTTP/1.1
 GET {{baseUrl}}/blah
+
+### get all contacts
+GET {{baseUrl}}/contacts
