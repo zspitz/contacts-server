@@ -40,11 +40,25 @@ contactRouter.delete('/:id', async (req, res) => {
     res.status(200).send(req.contact);
 });
 
-contactRouter.post('/:id/contactinfos', async (req, res) => {
+contactRouter.all('/:id/contactinfos', async (req, res, next) => {
     try {
         await contactInfoValidationSchema.validateAsync(req.body);
     } catch (error) {
         res.status(400).send(error);
+        return;
+    }
+    req.contactInfoIndex = req.contact.contactInfos.findIndex(ci => {
+        return (
+            ci.infoType === req.body.infoType &&
+            ci.value === req.body.value
+        );
+    });
+    next();
+});
+
+contactRouter.post('/:id/contactinfos', async (req, res) => {
+    if (req.contactInfoIndex !== -1) {
+        res.status(400).send('Contact info already exists');
         return;
     }
     req.contact.contactInfos.push(req.body);
@@ -53,19 +67,7 @@ contactRouter.post('/:id/contactinfos', async (req, res) => {
 });
 
 contactRouter.delete('/:id/contactinfos', async (req, res) => {
-    try {
-        await contactInfoValidationSchema.validateAsync(req.body);
-    } catch (error) {
-        res.status(400).send(error);
-        return;
-    }
-
-    const index = req.contact.contactInfos.findIndex(ci => {
-        return (
-            ci.infoType === req.body.infoType &&
-            ci.value === req.body.value
-        );
-    });
+    const index = req.contactInfoIndex;
     if (index === -1) {
         res.status(404).send('Contact info not found');
         return;
