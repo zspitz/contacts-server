@@ -43,3 +43,21 @@ DELETE {{baseUrl}}/contacts/{{id}}
  
 ### Get contact by id
 DELETE {{baseUrl}}/contacts/679228a1f8d19f041cc37aaa
+
+### Add contact info to contact
+POST {{baseUrl}}/contacts/{{id}}/contactinfos
+Content-Type: application/json
+
+{
+    "infoType": "phone",
+    "value": "12-34-56"
+}
+
+### Delete contact info to contact
+DELETE {{baseUrl}}/contacts/{{id}}/contactinfos
+Content-Type: application/json
+
+{
+    "infoType": "phone",
+    "value": "12-34-56"
+}
